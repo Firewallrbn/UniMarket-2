@@ -1,0 +1,13 @@
+id,name,price,category,productType
+1,Laptop HP Pavilion,899.99,Tecnología,Laptop
+2,Laptop Dell XPS 13,1249.99,Tecnología,Laptop
+3,Laptop Lenovo ThinkPad,1099.5,Tecnología,Laptop
+4,Clean Code eBook,29.99,Tecnología,EBook
+5,Design Patterns eBook,34.5,Tecnología,EBook
+6,Java Concurrency eBook,24.99,Tecnología,EBook
+7,Cuaderno Profesional 100H,5.5,Útiles Escolares,Notebook
+8,Cuaderno Universitario 200H,8.75,Útiles Escolares,Notebook
+9,Cuaderno de Dibujo A4,12.0,Útiles Escolares,Notebook
+10,Curso de Cálculo PDF,15.0,Útiles Escolares,CoursePDF
+11,Curso de Física PDF,18.5,Útiles Escolares,CoursePDF
+12,Curso de Programación PDF,22.0,Útiles Escolares,CoursePDF
