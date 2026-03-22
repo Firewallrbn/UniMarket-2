@@ -1,4 +1,4 @@
-package main.java.com.unimarket.unimarket_usuarios; // Ajusta esto si tu paquete se llama diferente
+package com.unimarket.unimarket_usuarios;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
