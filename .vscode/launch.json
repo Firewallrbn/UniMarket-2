@@ -1,0 +1,25 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-UnimarketUsuariosApplication<unimarket-usuarios>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.unimarket.unimarket_usuarios.UnimarketUsuariosApplication",
+            "projectName": "unimarket-usuarios",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env",
+            "vmArgs": " -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=50606 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dspring.jmx.enabled=true -Djava.rmi.server.hostname=localhost -Dspring.application.admin.enabled=true -Dspring.boot.project.name=unimarket-usuarios"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-UnimarketVentasApplication<unimarket-ventas>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.unimarket.unimarket_ventas.UnimarketVentasApplication",
+            "projectName": "unimarket-ventas",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}

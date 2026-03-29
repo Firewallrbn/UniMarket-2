@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Momentum / UniMarket Dashboard</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <!-- Local CSS -->
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <!-- App Container -->
+    <div class="app-container">
+      
+      <!-- Sidebar -->
+      <aside class="sidebar">
+        <div class="sidebar-header">
+          <div class="logo">
+            <div class="logo-icon"><i class="fa-solid fa-cube"></i></div>
+            <div class="logo-text">
+              <span class="logo-title">Momentum</span>
+              <span class="logo-sub">Team's workspace</span>
+            </div>
+          </div>
+        </div>
+
+        <nav class="sidebar-nav">
+          <p class="nav-section-title">GENERAL</p>
+          <ul>
+            <li class="active"><i class="fa-solid fa-house"></i> Dashboard</li>
+            <li><i class="fa-solid fa-shapes"></i> Templates</li>
+            <li><i class="fa-solid fa-box-open"></i> Products <span class="badge">13</span></li>
+            <li><i class="fa-solid fa-file-lines"></i> Docs <span class="badge">56</span></li>
+            <li><i class="fa-regular fa-comment-dots"></i> Messages <span class="badge">4</span></li>
+          </ul>
+
+          <p class="nav-section-title">MORE</p>
+          <ul>
+            <li><i class="fa-regular fa-square-check"></i> To do lists</li>
+            <li class="text-orange"><i class="fa-solid fa-wand-magic-sparkles"></i> AI Assistants</li>
+          </ul>
+        </nav>
+
+        <div class="sidebar-footer">
+          <button class="upgrade-btn">
+            <i class="fa-solid fa-crown"></i> Upgrade to PRO
+          </button>
+        </div>
+      </aside>
+
+      <!-- Main Content -->
+      <main class="main-content">
+        <!-- Topbar -->
+        <header class="topbar">
+          <div class="search-bar">
+            <div class="search-box">
+              <span class="placeholder">Preparation of technical specifications...</span>
+              <i class="fa-solid fa-magnifying-glass search-icon"></i>
+            </div>
+          </div>
+          <div class="topbar-actions">
+            <div class="action-btn calendar-btn">
+              <i class="fa-regular fa-calendar"></i> Monthly <i class="fa-solid fa-chevron-down pt-small"></i>
+            </div>
+            <div class="action-icon"><i class="fa-regular fa-moon"></i></div>
+            <div class="action-icon notification"><i class="fa-regular fa-bell"></i><span class="dot"></span></div>
+            <img src="https://i.pravatar.cc/150?img=11" alt="Profile" class="profile-pic" />
+          </div>
+        </header>
+
+        <!-- Greetings -->
+        <div class="greetings">
+          <h1>Hi, Oliver!</h1>
+          <p>Let's customize your workspace!</p>
+        </div>
+
+        <!-- Dashboard Grid -->
+        <div class="dashboard-grid">
+          
+          <!-- Card 1: Sales / Venta Simulation (replaces Updates) -->
+          <div class="card p-card">
+            <div class="card-header">
+              <div class="card-icon"><i class="fa-solid fa-layer-group"></i> Ventas</div>
+              <div class="card-actions">
+                <span class="view-all">Historial</span>
+                <i class="fa-solid fa-rotate-right icon-action"></i>
+              </div>
+            </div>
+            <h2 class="card-metric" id="totalVentasMetric">$0</h2>
+            <p class="card-subtext">Total acumulado en ventas hoy</p>
+            
+            <div class="ventas-actions mt-4">
+              <button class="action-btn bg-orange fill-w" id="btnSimularVenta">
+                <i class="fa-solid fa-cart-plus"></i> Simular Venta (SOA)
+              </button>
+              <select id="userTypeSelect" class="mt-2 text-small w-full custom-select">
+                <option value="101">101 - Standard</option>
+                <option value="102">102 - Entrepreneur</option>
+                <option value="103">103 - Scholarship</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Card 2: Hero Visual Gradient -->
+          <div class="card hero-glass-card">
+            <div class="glass-overlay">
+              <h3>Maximize human productivity</h3>
+              <p>Replace all your software. Every app, AI agent, and human in one place.</p>
+            </div>
+          </div>
+
+          <!-- Card 3: Metrics Group (replaces KPI, Iterations etc) -->
+          <div class="metrics-cluster">
+            <div class="card small-card">
+              <div class="card-header">
+                <div><i class="fa-solid fa-rotate"></i> Iterations</div>
+                <i class="fa-solid fa-arrow-up-right-from-square icon-action"></i>
+              </div>
+              <h2 class="metric-val">282</h2>
+              <span class="metric-change text-orange">+38.12% <span class="text-mut">from previous weeks</span></span>
+            </div>
+            
+            <div class="card small-card">
+               <div class="card-header">
+                <div><i class="fa-solid fa-chart-pie"></i> KPI</div>
+                <i class="fa-solid fa-arrow-up-right-from-square icon-action"></i>
+              </div>
+              <h2 class="metric-val">3.78</h2>
+              <span class="metric-change">-5.6% <span class="text-mut">from previous weeks</span></span>
+            </div>
+          </div>
+
+          <!-- Card 4: Catalog Panel (replaces MVP prep tasks) -->
+          <div class="card list-card p-card span-row-2">
+            <div class="card-header">
+              <div class="month-selector">
+                <i class="fa-solid fa-chevron-left"></i>
+                <span>Catálogo SOA</span>
+                <i class="fa-solid fa-chevron-right"></i>
+              </div>
+            </div>
+            
+            <div class="catalog-content">
+              <div class="task-item">
+                <div class="task-info">
+                  <h4>Product Catalog</h4>
+                  <p>Obtenido desde `unimarket-ventas` utilizando Abstract Factory</p>
+                </div>
+                <span class="time-stamp" id="catalogTime">--:-- AM</span>
+              </div>
+              
+              <button class="action-btn bg-orange fill-w mt-4" id="btnCargarCatalogo">
+                <i class="fa-solid fa-plus"></i> Cargar Catálogo
+              </button>
+              
+              <ul id="listaCatalogo" class="task-list mt-4">
+                 <!-- Catalog items will be injected here via JS -->
+                 <li class="empty-state">No products loaded yet</li>
+              </ul>
+            </div>
+          </div>
+
+        </div> <!-- /Dashboard Grid -->
+        
+        <!-- Bottom Notification (Toast for API Responses) -->
+        <div id="toast" class="toast hidden">
+          <div class="toast-icon"><i class="fa-solid fa-circle-check"></i></div>
+          <div class="toast-content" id="toastMessage">Success</div>
+        </div>
+
+      </main>
+    </div>
+
+    <script type="module" src="./main.js"></script>
+  </body>
+</html>
