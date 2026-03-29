@@ -4,10 +4,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import java.util.HashMap;
 import java.util.Map;
 
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/usuarios")
 public class UsuarioController {
@@ -15,6 +17,8 @@ public class UsuarioController {
     // Funcionalidad 1: Validación de Existencia de Usuario
     @GetMapping("/{id}/existe")
     public boolean existeUsuario(@PathVariable String id) {
+        System.out.println("\n[USUARIOS-SERVICE] <--- Petición SOA (GET /existe) recibida desde VENTAS");
+        System.out.println("[USUARIOS-SERVICE] Validando existencia de usuario ID: " + id);
         // IDs de prueba: 101, 102, 103 (o el antiguo 123)
         return "101".equals(id) || "102".equals(id) || "103".equals(id) || "123".equals(id);
     }
@@ -22,6 +26,8 @@ public class UsuarioController {
     // Funcionalidad 2: Obtener Perfil para Cálculo de Comisión
     @GetMapping("/{id}/perfil")
     public Map<String, String> obtenerPerfil(@PathVariable String id) {
+        System.out.println("\n[USUARIOS-SERVICE] <--- Petición SOA (GET /perfil) recibida desde VENTAS");
+        System.out.println("[USUARIOS-SERVICE] Obteniendo perfil para usuario ID: " + id);
         Map<String, String> perfil = new HashMap<>();
         
         switch (id) {
