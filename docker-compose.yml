@@ -26,4 +26,5 @@ services:
     ports:
       - "16686:16686" # Interfaz web
       - "4317:4317"   # OTLP gRPC
-      - "9411:9411"   # Zipkin API (Para que Spring Boot envíe los spans)
+      - "4318:4318"   # OTLP HTTP (Spring Boot 4 usa este)
+      - "9411:9411"   # Zipkin API
