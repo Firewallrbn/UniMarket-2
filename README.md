@@ -1,6 +1,61 @@
-# UniMarket-2: Guía de Inicio
+# 🏪 UniMarket-2 — Plataforma de Microservicios SOA
 
-Este proyecto es una aplicación de microservicios diseñada para demostrar patrones de diseño (como Strategy), principios SOA y observabilidad distribuida (Tracing con Jaeger).
+> **Arquitectura Orientada a Servicios (SOA)** con microservicios RESTful, resiliencia (Circuit Breaker + Retry + Fallback), seguridad JWT, observabilidad distribuida y patrones de diseño (Strategy, Abstract Factory).
+
+---
+
+## 🏛️ Arquitectura del Sistema
+
+UniMarket-2 implementa una **Arquitectura Orientada a Servicios (SOA)** con comunicación REST síncrona entre dos microservicios independientes:
+
+| Componente | Tecnología | Puerto | Rol |
+|:-----------|:-----------|:-------|:----|
+| **Frontend** | Vite + Vanilla JS | `:5173` | SPA dashboard: Auth JWT, Ventas, Catálogo, Circuit Breaker |
+| **unimarket-ventas** | Spring Boot 4 | `:8081` | **Consumidor SOA** — Ventas, Strategy Pattern, Resilience4j, JWT |
+| **unimarket-usuarios** | Spring Boot 4 | `:8080` | **Proveedor SOA** — Validación de usuarios, perfiles |
+| **Prometheus** | Docker | `:9090` | Recolección de métricas (scrape cada 3s) |
+| **Grafana** | Docker | `:3000` | Dashboards de visualización |
+| **Jaeger** | Docker | `:16686` | Tracing distribuido (OTLP) |
+
+### Aspectos Arquitectónicos Clave
+
+- **Comunicación REST**: `unimarket-ventas` consume a `unimarket-usuarios` vía `RestClient` con propagación automática de trazas (W3C Trace Context).
+- **Resiliencia**: Circuit Breaker (Resilience4j) + Retry (3 intentos, 2s entre cada uno) + Fallback (perfil STANDARD por defecto). El sistema **nunca falla**, degrada gracefully.
+- **Seguridad**: JWT (HS256) con Spring Security — endpoints protegidos (`/api/ventas/crear`, `/api/ventas/historial/**`) y endpoints públicos (`/api/auth/**`, `/api/productos/**`, `/actuator/**`).
+- **Observabilidad**: Métricas (Micrometer → Prometheus → Grafana) + Trazas distribuidas (OpenTelemetry → OTLP → Jaeger).
+- **Patrones de Diseño**: Strategy (comisiones según perfil), Abstract Factory (catálogo de productos).
+
+---
+
+## 🖥️ Interfaz del Frontend
+
+El frontend es una SPA tipo dashboard que permite interactuar con todos los componentes de la arquitectura desde una interfaz unificada:
+
+![UniMarket Frontend — Dashboard principal con módulos de Seguridad JWT, Ventas SOA con Strategy Pattern, Catálogo vía Abstract Factory, y panel de estado del Circuit Breaker (Resilience4j) en tiempo real.](imagenes/front.jpeg)
+
+El dashboard se divide en 4 módulos principales:
+- **🔒 Seguridad JWT**: Obtener token de autenticación para acceder a endpoints protegidos.
+- **🛒 Ventas (SOA)**: Simular ventas que disparan la comunicación inter-servicio, el Strategy Pattern y el Circuit Breaker.
+- **📦 Catálogo SOA**: Cargar productos generados por el Abstract Factory.
+- **💚 Resiliencia**: Visualizar el estado del Circuit Breaker (`CLOSED`, `OPEN`, `HALF_OPEN`) y sus métricas en tiempo real.
+
+---
+
+## 📖 Wiki — Documentación a Profundidad
+
+> La documentación completa del proyecto se encuentra en la **[📚 Wiki del repositorio](../../wiki)**, donde se abordan en profundidad los siguientes temas:
+
+| Sección | Descripción |
+|:--------|:------------|
+| **Descripción del Sistema** | Contexto, objetivos y alcance de UniMarket |
+| **Arquitectura Inicial vs. Evolucionada** | Evolución de monolito a microservicios SOA |
+| **Resiliencia** | Circuit Breaker, Retry, Fallback — investigación e implementación |
+| **Observabilidad** | Stack Prometheus + Grafana + Jaeger — configuración y evidencia |
+| **Seguridad** | JWT, Spring Security — flujo de autenticación y protección de endpoints |
+| **Diagramas Arquitectónicos** | C4 Contenedores, Secuencia UML, Topología de Observabilidad |
+| **Evidencia de Funcionalidades** | Screenshots, trazas, métricas para cada endpoint cubierto |
+
+---
 
 ## 🚀 Requisitos Previos
 
