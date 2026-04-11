@@ -1,0 +1,232 @@
+{
+  "annotations": {
+    "list": []
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 1,
+  "links": [],
+  "panels": [
+    {
+      "title": "Circuit Breaker - Estado Actual",
+      "description": "Estado del Circuit Breaker: 0=CLOSED, 1=OPEN, 2=HALF_OPEN",
+      "type": "stat",
+      "gridPos": { "h": 5, "w": 8, "x": 0, "y": 0 },
+      "targets": [
+        {
+          "expr": "resilience4j_circuitbreaker_state{application=\"unimarket-ventas\", name=\"usuariosService\"}",
+          "legendFormat": "{{state}}",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "thresholds" },
+          "thresholds": {
+            "steps": [
+              { "color": "green", "value": null },
+              { "color": "red", "value": 1 }
+            ]
+          },
+          "mappings": [
+            { "type": "value", "options": { "0": { "text": "CLOSED (OK)", "color": "green" } } },
+            { "type": "value", "options": { "1": { "text": "OPEN (FALLBACK)", "color": "red" } } },
+            { "type": "value", "options": { "2": { "text": "HALF_OPEN", "color": "yellow" } } }
+          ]
+        }
+      }
+    },
+    {
+      "title": "Circuit Breaker - Tasa de Fallos (%)",
+      "description": "Porcentaje de llamadas fallidas en la ventana deslizante",
+      "type": "gauge",
+      "gridPos": { "h": 5, "w": 8, "x": 8, "y": 0 },
+      "targets": [
+        {
+          "expr": "resilience4j_circuitbreaker_failure_rate{application=\"unimarket-ventas\", name=\"usuariosService\"}",
+          "legendFormat": "Failure Rate",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percent",
+          "min": 0,
+          "max": 100,
+          "color": { "mode": "thresholds" },
+          "thresholds": {
+            "steps": [
+              { "color": "green", "value": null },
+              { "color": "yellow", "value": 30 },
+              { "color": "red", "value": 50 }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "title": "Circuit Breaker - Llamadas por Tipo",
+      "description": "Número de llamadas exitosas, fallidas y no permitidas",
+      "type": "stat",
+      "gridPos": { "h": 5, "w": 8, "x": 16, "y": 0 },
+      "targets": [
+        {
+          "expr": "resilience4j_circuitbreaker_calls_total{application=\"unimarket-ventas\", name=\"usuariosService\", kind=\"successful\"}",
+          "legendFormat": "Exitosas",
+          "refId": "A"
+        },
+        {
+          "expr": "resilience4j_circuitbreaker_calls_total{application=\"unimarket-ventas\", name=\"usuariosService\", kind=\"failed\"}",
+          "legendFormat": "Fallidas",
+          "refId": "B"
+        },
+        {
+          "expr": "resilience4j_circuitbreaker_not_permitted_calls_total{application=\"unimarket-ventas\", name=\"usuariosService\"}",
+          "legendFormat": "No Permitidas",
+          "refId": "C"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "fixed", "fixedColor": "green" }
+        },
+        "overrides": [
+          {
+            "matcher": { "id": "byName", "options": "Fallidas" },
+            "properties": [{ "id": "color", "value": { "mode": "fixed", "fixedColor": "red" } }]
+          },
+          {
+            "matcher": { "id": "byName", "options": "No Permitidas" },
+            "properties": [{ "id": "color", "value": { "mode": "fixed", "fixedColor": "orange" } }]
+          }
+        ]
+      }
+    },
+    {
+      "title": "Llamadas al Servicio de Usuarios (Rate/min)",
+      "description": "Rate de llamadas exitosas vs fallidas por minuto",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 5 },
+      "targets": [
+        {
+          "expr": "rate(resilience4j_circuitbreaker_calls_total{application=\"unimarket-ventas\", name=\"usuariosService\", kind=\"successful\"}[1m]) * 60",
+          "legendFormat": "Exitosas/min",
+          "refId": "A"
+        },
+        {
+          "expr": "rate(resilience4j_circuitbreaker_calls_total{application=\"unimarket-ventas\", name=\"usuariosService\", kind=\"failed\"}[1m]) * 60",
+          "legendFormat": "Fallidas/min",
+          "refId": "B"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "palette-classic" },
+          "custom": {
+            "lineWidth": 2,
+            "fillOpacity": 20,
+            "pointSize": 5,
+            "showPoints": "auto"
+          }
+        },
+        "overrides": [
+          {
+            "matcher": { "id": "byName", "options": "Exitosas/min" },
+            "properties": [{ "id": "color", "value": { "mode": "fixed", "fixedColor": "green" } }]
+          },
+          {
+            "matcher": { "id": "byName", "options": "Fallidas/min" },
+            "properties": [{ "id": "color", "value": { "mode": "fixed", "fixedColor": "red" } }]
+          }
+        ]
+      }
+    },
+    {
+      "title": "Retry - Intentos por Resultado",
+      "description": "Total de reintentos clasificados por resultado",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 5 },
+      "targets": [
+        {
+          "expr": "rate(resilience4j_retry_calls_total{application=\"unimarket-ventas\", name=\"usuariosService\", kind=\"successful_without_retry\"}[1m]) * 60",
+          "legendFormat": "Exitoso (sin retry)",
+          "refId": "A"
+        },
+        {
+          "expr": "rate(resilience4j_retry_calls_total{application=\"unimarket-ventas\", name=\"usuariosService\", kind=\"successful_with_retry\"}[1m]) * 60",
+          "legendFormat": "Exitoso (con retry)",
+          "refId": "B"
+        },
+        {
+          "expr": "rate(resilience4j_retry_calls_total{application=\"unimarket-ventas\", name=\"usuariosService\", kind=\"failed_with_retry\"}[1m]) * 60",
+          "legendFormat": "Fallido (con retry)",
+          "refId": "C"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "lineWidth": 2,
+            "fillOpacity": 15,
+            "pointSize": 5
+          }
+        },
+        "overrides": [
+          {
+            "matcher": { "id": "byName", "options": "Exitoso (sin retry)" },
+            "properties": [{ "id": "color", "value": { "mode": "fixed", "fixedColor": "green" } }]
+          },
+          {
+            "matcher": { "id": "byName", "options": "Exitoso (con retry)" },
+            "properties": [{ "id": "color", "value": { "mode": "fixed", "fixedColor": "yellow" } }]
+          },
+          {
+            "matcher": { "id": "byName", "options": "Fallido (con retry)" },
+            "properties": [{ "id": "color", "value": { "mode": "fixed", "fixedColor": "red" } }]
+          }
+        ]
+      }
+    },
+    {
+      "title": "Latencia de Llamadas HTTP (unimarket-ventas)",
+      "description": "Percentiles p50, p95, p99 de latencia de peticiones HTTP",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 24, "x": 0, "y": 13 },
+      "targets": [
+        {
+          "expr": "histogram_quantile(0.50, sum(rate(http_server_requests_seconds_bucket{application=\"unimarket-ventas\"}[1m])) by (le))",
+          "legendFormat": "p50",
+          "refId": "A"
+        },
+        {
+          "expr": "histogram_quantile(0.95, sum(rate(http_server_requests_seconds_bucket{application=\"unimarket-ventas\"}[1m])) by (le))",
+          "legendFormat": "p95",
+          "refId": "B"
+        },
+        {
+          "expr": "histogram_quantile(0.99, sum(rate(http_server_requests_seconds_bucket{application=\"unimarket-ventas\"}[1m])) by (le))",
+          "legendFormat": "p99",
+          "refId": "C"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "s",
+          "custom": {
+            "lineWidth": 2,
+            "fillOpacity": 10
+          }
+        }
+      }
+    }
+  ],
+  "refresh": "5s",
+  "schemaVersion": 39,
+  "tags": ["unimarket", "resilience4j", "circuit-breaker"],
+  "templating": { "list": [] },
+  "time": { "from": "now-15m", "to": "now" },
+  "timepicker": {},
+  "timezone": "browser",
+  "title": "UniMarket - Resiliencia & Observabilidad",
+  "uid": "unimarket-resilience"
+}

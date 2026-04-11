@@ -82,7 +82,26 @@
         <!-- Dashboard Grid -->
         <div class="dashboard-grid">
           
-          <!-- Card 1: Sales / Venta Simulation (replaces Updates) -->
+          <!-- Card 1: Auth Panel (JWT Security) -->
+          <div class="card p-card" id="authCard">
+            <div class="card-header">
+              <div class="card-icon"><i class="fa-solid fa-shield-halved"></i> Seguridad JWT</div>
+              <span class="auth-badge auth-none" id="authStatus">
+                <i class="fa-solid fa-lock"></i> Sin autenticar
+              </span>
+            </div>
+            <p class="card-subtext mt-2">Obtén un token JWT para acceder a los endpoints protegidos.</p>
+            
+            <div class="auth-form mt-4">
+              <input type="text" id="inputUsername" placeholder="Nombre de usuario (ej: testUser)" class="auth-input" value="testUser" />
+              <button class="action-btn bg-green fill-w mt-2" id="btnObtenerToken">
+                <i class="fa-solid fa-key"></i> Obtener JWT
+              </button>
+              <code class="token-preview mt-2" id="tokenPreview" style="display:none;"></code>
+            </div>
+          </div>
+
+          <!-- Card 2: Sales / Venta Simulation -->
           <div class="card p-card">
             <div class="card-header">
               <div class="card-icon"><i class="fa-solid fa-layer-group"></i> Ventas</div>
@@ -95,7 +114,7 @@
             <p class="card-subtext">Total acumulado en ventas hoy</p>
             
             <div class="ventas-actions mt-4">
-              <button class="action-btn bg-orange fill-w" id="btnSimularVenta">
+              <button class="action-btn bg-orange fill-w btn-disabled" id="btnSimularVenta" disabled>
                 <i class="fa-solid fa-cart-plus"></i> Simular Venta (SOA)
               </button>
               <select id="userTypeSelect" class="mt-2 text-small w-full custom-select">
@@ -106,15 +125,26 @@
             </div>
           </div>
 
-          <!-- Card 2: Hero Visual Gradient -->
-          <div class="card hero-glass-card">
-            <div class="glass-overlay">
-              <h3>Maximize human productivity</h3>
-              <p>Replace all your software. Every app, AI agent, and human in one place.</p>
+          <!-- Card 3: Resilience / Circuit Breaker Status -->
+          <div class="card p-card" id="resilienceCard">
+            <div class="card-header">
+              <div class="card-icon"><i class="fa-solid fa-heart-pulse"></i> Resiliencia</div>
+              <div class="card-actions">
+                <span class="view-all">Resilience4j</span>
+              </div>
+            </div>
+            <p class="card-subtext mt-2">Estado del Circuit Breaker en tiempo real.</p>
+            
+            <button class="action-btn bg-purple fill-w mt-4" id="btnCheckResilience">
+              <i class="fa-solid fa-heart-pulse"></i> Ver Estado Circuit Breaker
+            </button>
+            
+            <div id="resilienceStatus" class="resilience-panel mt-4">
+              <p class="text-mut">Haz clic para ver el estado actual.</p>
             </div>
           </div>
 
-          <!-- Card 3: Metrics Group (replaces KPI, Iterations etc) -->
+          <!-- Card 4: Metrics Group -->
           <div class="metrics-cluster">
             <div class="card small-card">
               <div class="card-header">
@@ -135,12 +165,12 @@
             </div>
           </div>
 
-          <!-- Card 4: Catalog Panel (replaces MVP prep tasks) -->
+          <!-- Card 5: Catalog Panel -->
           <div class="card list-card p-card span-row-2">
             <div class="card-header">
               <div class="month-selector">
                 <i class="fa-solid fa-chevron-left"></i>
-                <span>Catálogo SOA</span>
+                <span>Catalogo SOA</span>
                 <i class="fa-solid fa-chevron-right"></i>
               </div>
             </div>
@@ -155,7 +185,7 @@
               </div>
               
               <button class="action-btn bg-orange fill-w mt-4" id="btnCargarCatalogo">
-                <i class="fa-solid fa-plus"></i> Cargar Catálogo
+                <i class="fa-solid fa-plus"></i> Cargar Catalogo
               </button>
               
               <ul id="listaCatalogo" class="task-list mt-4">

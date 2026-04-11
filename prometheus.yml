@@ -1,5 +1,5 @@
 global:
-  scrape_interval: 5s
+  scrape_interval: 3s   # Intervalo reducido para demos más responsivos
 
 scrape_configs:
   - job_name: 'unimarket-usuarios'
