@@ -31,7 +31,7 @@ UniMarket-2 implementa una **Arquitectura Orientada a Servicios (SOA)** con comu
 
 El frontend es una SPA tipo dashboard que permite interactuar con todos los componentes de la arquitectura desde una interfaz unificada:
 
-![UniMarket Frontend — Dashboard principal con módulos de Seguridad JWT, Ventas SOA con Strategy Pattern, Catálogo vía Abstract Factory, y panel de estado del Circuit Breaker (Resilience4j) en tiempo real.](imagenes/front.jpeg)
+![UniMarket Frontend — Dashboard principal con módulos de Seguridad JWT, Ventas SOA con Strategy Pattern, Catálogo vía Abstract Factory, y panel de estado del Circuit Breaker (Resilience4j) en tiempo real.](diagramas/imagenes/front.jpeg)
 
 El dashboard se divide en 4 módulos principales:
 - **🔒 Seguridad JWT**: Obtener token de autenticación para acceder a endpoints protegidos.
