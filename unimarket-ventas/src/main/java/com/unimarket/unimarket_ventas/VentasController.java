@@ -49,13 +49,16 @@ public class VentasController {
         log.info("[VENTAS-SERVICE] Paso 1: Verificando si el usuario existe (con Circuit Breaker)...");
         boolean existe = usuarioClientService.verificarExistencia(request.getUsuarioId());
         if (!existe) {
-            log.warn("[VENTAS-SERVICE] <--- ERROR: El usuario no existe. Finalizando proceso.");
-            debugTrace.add("[SOA ERROR] El usuario no existe en el microservicio de Usuarios.");
-            response.put("error", "El usuario especificado no existe o no es valido");
+            log.warn("[VENTAS-SERVICE] <--- VENTA RECHAZADA: usuario {} no verificado (puede ser CB activo o usuario inexistente).",
+                    request.getUsuarioId());
+            debugTrace.add("[CIRCUIT BREAKER / SOA] Venta bloqueada: servicio de usuarios no disponible o usuario no existe.");
+            response.put("error", "Venta rechazada: no se pudo verificar el usuario. El servicio de usuarios puede estar caido (Circuit Breaker activo) o el usuario no existe.");
+            response.put("circuitBreakerActivo", true);
             response.put("debugTrace", debugTrace);
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+            return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(response);
         }
         debugTrace.add("[SOA EXITO] Usuario " + request.getUsuarioId() + " validado.");
+
 
         // 2. Obtener tipo de usuario (Funcionalidad 2 - SOA + Circuit Breaker)
         log.info("[VENTAS-SERVICE] Paso 2: Usuario validado. Solicitando perfil (con Circuit Breaker)...");

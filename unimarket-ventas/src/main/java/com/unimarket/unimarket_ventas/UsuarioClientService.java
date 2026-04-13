@@ -65,13 +65,16 @@ public class UsuarioClientService {
     /**
      * Fallback para verificarExistencia.
      * Se activa cuando el Circuit Breaker está abierto o cuando los reintentos se agotan.
-     * Retorna true por defecto para no bloquear el flujo de ventas.
+     *
+     * Retorna FALSE intencionalmente: si no se puede verificar la existencia del usuario
+     * (porque el servicio está caído), la venta debe rechazarse. No tiene sentido aprobar
+     * una venta para un usuario que no se puede confirmar que existe.
      */
     public boolean fallbackVerificarExistencia(String usuarioId, Throwable t) {
-        log.warn("[VENTAS-SERVICE] <--- FALLBACK verificarExistencia: No se pudo verificar usuario {}. Causa: {}",
-                usuarioId, t.getMessage());
-        log.warn("[VENTAS-SERVICE] <--- Circuit Breaker activado: asumiendo que el usuario EXISTE por defecto");
-        return true; // Asumimos que existe por defecto en caso de falla
+        log.warn("[VENTAS-SERVICE] <--- FALLBACK verificarExistencia: servicio de usuarios no disponible. Causa: {}",
+                t.getMessage());
+        log.warn("[VENTAS-SERVICE] <--- Circuit Breaker ACTIVO: bloqueando venta, no se puede verificar usuario {}", usuarioId);
+        return false; // BLOQUEAMOS la venta: sin verificacion, no hay venta
     }
 
     /**
@@ -99,14 +102,15 @@ public class UsuarioClientService {
     /**
      * Fallback para obtenerPerfil.
      * Se activa cuando el Circuit Breaker está abierto o cuando los reintentos se agotan.
-     * Retorna un perfil STANDARD por defecto.
+     *
+     * En la práctica, este fallback solo se alcanzaría si verificarExistencia devolvió true
+     * pero obtenerPerfil falla (improbable pero posible en condiciones de red intermitente).
+     * Se retorna null para que el controlador decida cómo manejarlo.
      */
     public UsuarioPerfilDTO fallbackObtenerPerfil(String usuarioId, Throwable t) {
-        log.warn("[VENTAS-SERVICE] <--- FALLBACK obtenerPerfil: No se pudo obtener perfil de {}. Causa: {}",
+        log.warn("[VENTAS-SERVICE] <--- FALLBACK obtenerPerfil: servicio de usuarios no disponible para {}. Causa: {}",
                 usuarioId, t.getMessage());
-        log.warn("[VENTAS-SERVICE] <--- Circuit Breaker activado: retornando perfil STANDARD por defecto");
-        UsuarioPerfilDTO defaultProfile = new UsuarioPerfilDTO();
-        defaultProfile.setTipo("STANDARD");
-        return defaultProfile;
+        log.warn("[VENTAS-SERVICE] <--- Circuit Breaker ACTIVO: retornando perfil nulo, venta usara STANDARD");
+        return null; // El controlador lo manejará como STANDARD
     }
 }
